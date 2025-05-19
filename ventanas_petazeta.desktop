@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Ventanas Petazeta
+Comment=Plaga visual infinita
+Exec=python3 /mnt/data/ventanas_petazeta.py
+Icon=utilities-terminal
+Terminal=false
+Categories=Utility;
