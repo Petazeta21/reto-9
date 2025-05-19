@@ -21,9 +21,10 @@ def abrir_ventana():
     global x_pos, y_pos
 
     nueva = tk.Toplevel()
-    nueva.title("¡Infección!")
+    nueva.title("¡Petazeta21!")
     nueva.geometry(f"{ancho_ventana}x{alto_ventana}+{x_pos}+{y_pos}")
-    tk.Label(nueva, text="¡Te han atrapado!", fg="red", font=("Arial", 14)).pack(pady=20)
+    tk.Label(nueva, text="¡炸弹!", fg="red", font=("Arial", 18)).pack(pady=(10, 0))
+    tk.Label(nueva, text="Ten cuidado la próxima vez qwq", font=("Arial", 12)).pack(pady=(5, 15))
     nueva.after(100, lambda: nueva.lift())
 
     # Avanzar en diagonal
