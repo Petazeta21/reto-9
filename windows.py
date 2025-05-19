@@ -1,16 +1,23 @@
 import tkinter as tk
-import threading
-import time
 
+# Función que crea una nueva ventana
 def abrir_ventana():
-    while True:
-        ventana = tk.Tk()
-        ventana.title("¡Alerta!")
-        ventana.geometry("300x100")
-        etiqueta = tk.Label(ventana, text="¡Estás infectado!", fg="red", font=("Arial", 14))
-        etiqueta.pack(pady=20)
-        ventana.after(100, lambda: ventana.lift())  # Mantiene al frente
-        threading.Thread(target=ventana.mainloop).start()
-        time.sleep(0.1)  # Controla la velocidad de aparición
+    nueva = tk.Toplevel()
+    nueva.title("¡Infección!")
+    nueva.geometry("300x100")
+    tk.Label(nueva, text="¡Te han atrapado!", fg="red", font=("Arial", 14)).pack(pady=20)
+    nueva.after(100, lambda: nueva.lift())  # Mantener al frente
 
-abrir_ventana()
+# Función recursiva que genera ventanas sin parar
+def generar_infinito(root):
+    abrir_ventana()
+    root.after(300, lambda: generar_infinito(root))  # cada 300 ms
+
+# Ventana principal oculta
+root = tk.Tk()
+root.withdraw()  # No mostrar ventana base
+
+# Iniciar el bucle de infección visual
+root.after(0, lambda: generar_infinito(root))
+root.mainloop()
+
