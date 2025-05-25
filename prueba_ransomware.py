@@ -56,9 +56,16 @@ def descifrar_archivos():
 # Crea una nueva ventana emergente con mensaje
 def crear_ventana_aleatoria():
     if not bloqueo_activo:
+        # Evitar que se superponga al centro (cuadro central de 400x200 aprox)
+        while True:
+            x = random.randint(0, ancho - 300)
+            y = random.randint(0, alto - 100)
+            if not (ancho // 2 - 200 < x < ancho // 2 + 100 and alto // 2 - 100 < y < alto // 2 + 100):
+                break
+
         ventana = tk.Toplevel()
         ventana.title("petazeta21")
-        ventana.geometry("300x100+{}+{}".format(random.randint(0, ancho - 300), random.randint(0, alto - 100)))
+        ventana.geometry(f"300x100+{x}+{y}")
         ventana.attributes('-topmost', True)
         ventana.overrideredirect(True)
         tk.Label(ventana, text="Tus archivos han sido cifrados por Petazeta21 :(", fg="red").pack(pady=20)
@@ -132,7 +139,7 @@ class RansomwareSimulador:
     def generar_ventanas(self):
         if not bloqueo_activo:
             crear_ventana_aleatoria()
-            self.root.after(2000, self.generar_ventanas)
+            self.root.after(3000, self.generar_ventanas)
 
     def temporizador_contador(self, tiempo_restante):
         if tiempo_restante > 0:
