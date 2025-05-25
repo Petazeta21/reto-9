@@ -93,7 +93,6 @@ class RansomwareSimulador:
         self.root = root
         root.title("Petazeta21 - Simulador de Ransomware")
         root.attributes('-fullscreen', True)
-        root.configure(bg="black")
         self.cuadro = tk.Frame(root, bg="white", padx=20, pady=20)
         self.cuadro.place(relx=0.5, rely=0.5, anchor="center")
         self.intentos = 0
