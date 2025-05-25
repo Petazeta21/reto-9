@@ -1,9 +1,11 @@
 import tkinter as tk
 import os
 import random
+import shutil
 
 # Ruta con archivos de prueba
 RUTA_OBJETIVO = os.path.expanduser("~/ransom_prueba")
+RUTA_BACKUP = os.path.expanduser("~/ransom_backup")
 CLAVE_CORRECTA = "petazeta21"
 
 # Simula el cifrado renombrando archivos y sobreescribiendo su contenido
@@ -14,22 +16,38 @@ def cifrar_archivos():
             with open(os.path.join(RUTA_OBJETIVO, f"documento{i}.txt"), "w") as f:
                 f.write(f"Este es un archivo de prueba {i}\n")
 
+    if not os.path.exists(RUTA_BACKUP):
+        os.makedirs(RUTA_BACKUP)
+
     for archivo in os.listdir(RUTA_OBJETIVO):
         path = os.path.join(RUTA_OBJETIVO, archivo)
         if os.path.isfile(path) and not path.endswith(".locked"):
+            with open(path, "r") as f:
+                contenido = f.read()
+            # Guardar copia en backup
+            with open(os.path.join(RUTA_BACKUP, archivo), "w") as f:
+                f.write(contenido)
+            # Sobrescribir contenido original
             with open(path, "w") as f:
                 f.write("Tus archivos han sido cifrados por Petazeta21 :)")
             os.rename(path, path + ".locked")
 
-# Simula el descifrado restaurando los nombres de archivo
+# Simula el descifrado restaurando los nombres de archivo y contenido original
 def descifrar_archivos():
     for archivo in os.listdir(RUTA_OBJETIVO):
         path = os.path.join(RUTA_OBJETIVO, archivo)
         if path.endswith(".locked"):
-            nuevo = path.replace(".locked", "")
-            with open(nuevo, "w") as f:
-                f.write("Archivo restaurado.\n")
+            nombre_original = archivo.replace(".locked", "")
+            path_backup = os.path.join(RUTA_BACKUP, nombre_original)
+            if os.path.exists(path_backup):
+                with open(path_backup, "r") as f:
+                    contenido_original = f.read()
+                with open(os.path.join(RUTA_OBJETIVO, nombre_original), "w") as f:
+                    f.write(contenido_original)
             os.remove(path)
+    # Eliminar la carpeta de backup tras restaurar
+    if os.path.exists(RUTA_BACKUP):
+        shutil.rmtree(RUTA_BACKUP)
 
 # Crea una nueva ventana emergente con mensaje
 def crear_ventana_aleatoria():
@@ -80,4 +98,3 @@ if __name__ == "__main__":
     alto = root.winfo_screenheight()
     app = RansomwareSimulador(root)
     root.mainloop()
-
