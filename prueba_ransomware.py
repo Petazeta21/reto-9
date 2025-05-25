@@ -53,22 +53,31 @@ def descifrar_archivos():
     if os.path.exists(RUTA_BACKUP):
         shutil.rmtree(RUTA_BACKUP)
 
-# Crea una nueva ventana emergente con mensaje
+# Crea una nueva ventana emergente con diseño tipo pestaña
 def crear_ventana_aleatoria():
     if not bloqueo_activo:
-        # Evitar que se superponga al centro (cuadro central de 400x200 aprox)
         while True:
             x = random.randint(0, ancho - 300)
-            y = random.randint(0, alto - 100)
+            y = random.randint(0, alto - 150)
             if not (ancho // 2 - 200 < x < ancho // 2 + 100 and alto // 2 - 100 < y < alto // 2 + 100):
                 break
 
         ventana = tk.Toplevel()
-        ventana.title("petazeta21")
-        ventana.geometry(f"300x100+{x}+{y}")
+        ventana.title("Petazeta21 - Advertencia")
+        ventana.geometry(f"300x150+{x}+{y}")
         ventana.attributes('-topmost', True)
         ventana.overrideredirect(True)
-        tk.Label(ventana, text="Tus archivos han sido cifrados por Petazeta21 :(", fg="red").pack(pady=20)
+
+        marco = tk.Frame(ventana, bg="#ffdddd", bd=2, relief="raised")
+        marco.pack(expand=True, fill="both")
+        encabezado = tk.Frame(marco, bg="#cc0000")
+        encabezado.pack(fill="x")
+        tk.Label(encabezado, text="¡ALERTA!", fg="white", bg="#cc0000", font=("Arial", 12, "bold")).pack(padx=5, pady=2)
+
+        cuerpo = tk.Frame(marco, bg="#fff0f0")
+        cuerpo.pack(expand=True, fill="both")
+        tk.Label(cuerpo, text="Tus archivos han sido cifrados\npor Petazeta21", fg="black", bg="#fff0f0", font=("Arial", 10)).pack(pady=20)
+
         ventanas_activas.append(ventana)
         ventana.after(60000, lambda: cerrar_ventana(ventana))
 
