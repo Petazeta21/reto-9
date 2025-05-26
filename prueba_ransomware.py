@@ -65,7 +65,7 @@ def crear_ventana_aleatoria():
         ventana = tk.Toplevel()
         ventana.title("Petazeta21 - Advertencia")
         ventana.geometry(f"300x150+{x}+{y}")
-        ventana.attributes('-topmost', True)
+        ventana.attributes('-topmost', False)
         ventana.overrideredirect(True)
 
         marco = tk.Frame(ventana, bg="#ffdddd", bd=2, relief="raised")
