@@ -147,7 +147,7 @@ class RansomwareSimulador:
     def generar_ventanas(self):
         if not bloqueo_activo:
             crear_ventana_aleatoria()
-            self.root.after(3000, self.generar_ventanas)
+            self.root.after(10000, self.generar_ventanas)
 
     def temporizador_contador(self, tiempo_restante):
         if tiempo_restante > 0:
