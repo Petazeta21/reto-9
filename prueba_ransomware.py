@@ -59,8 +59,16 @@ def crear_ventana_aleatoria():
         while True:
             x = random.randint(0, ancho - 300)
             y = random.randint(0, alto - 150)
-            if not (ancho // 2 - 200 < x < ancho // 2 + 100 and alto // 2 - 100 < y < alto // 2 + 100):
-                break
+            
+            # Coordenadas de la zona central que NO debe ser tapada
+            zona_x1 = ancho // 2 - 250
+            zona_x2 = ancho // 2 + 250
+            zona_y1 = alto // 2 - 150
+            zona_y2 = alto // 2 + 150
+
+            # Si el punto generado está dentro de esa zona prohibida, descártalo
+            if not (zona_x1 < x < zona_x2 and zona_y1 < y < zona_y2):
+            break
 
         ventana = tk.Toplevel()
         ventana.title("Petazeta21 - Advertencia")
