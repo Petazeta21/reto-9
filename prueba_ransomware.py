@@ -93,6 +93,10 @@ class RansomwareSimulador:
         self.root = root
         root.title("Petazeta21 - Simulador de Ransomware")
         root.attributes('-fullscreen', False)
+        root.attributes('-topmost', True)
+        root.lift()
+        root.protocol("WM_DELETE_WINDOW", self.bloquear_cierre)
+
         self.cuadro = tk.Frame(root, bg="white", padx=20, pady=20)
         self.cuadro.place(relx=0.5, rely=0.5, anchor="center")
         self.intentos = 0
@@ -111,6 +115,9 @@ class RansomwareSimulador:
         self.temporizador.pack()
 
         self.generar_ventanas()
+
+    def bloquear_cierre(self):
+        pass  # Ignora el intento de cerrar la ventana
 
     def verificar_clave(self):
         global bloqueo_activo
@@ -147,7 +154,7 @@ class RansomwareSimulador:
     def generar_ventanas(self):
         if not bloqueo_activo:
             crear_ventana_aleatoria()
-            self.root.after(10000, self.generar_ventanas)
+            self.root.after(3000, self.generar_ventanas)
 
     def temporizador_contador(self, tiempo_restante):
         if tiempo_restante > 0:
