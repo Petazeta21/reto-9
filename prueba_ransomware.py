@@ -68,7 +68,7 @@ def crear_ventana_aleatoria():
 
             # Si el punto generado está dentro de esa zona prohibida, descártalo
             if not (zona_x1 < x < zona_x2 and zona_y1 < y < zona_y2):
-            break
+                break
 
         ventana = tk.Toplevel()
         ventana.title("Petazeta21 - Advertencia")
